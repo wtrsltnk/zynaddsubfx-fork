@@ -29,6 +29,7 @@
 #include <cctype>
 #include <algorithm>
 #include <signal.h>
+#include <time.h>
 
 #include <unistd.h>
 #include <pthread.h>

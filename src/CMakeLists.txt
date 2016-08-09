@@ -3,37 +3,44 @@ message(STATUS "Checking Include Path" $ENV{CMAKE_INCLUDE_PATH} ${CMAKE_INCLUDE_
 message(STATUS "Checking Library Path" $ENV{CMAKE_LIBRARY_PATH} ${CMAKE_LIBRARY_PATH})
 
 #Dependency check
-find_package(PkgConfig REQUIRED)
 find_package(zlib REQUIRED)
-pkg_check_modules(FFTW REQUIRED fftw3)
-pkg_check_modules(MXML REQUIRED mxml)
-find_package(Threads   REQUIRED)
+
 find_package(OSS)
 find_package(Alsa)
-pkg_check_modules(JACK jack)
-pkg_check_modules(PORTAUDIO portaudio-2.0>=19)
 set(FLTK_SKIP_OPENGL true)
-pkg_check_modules(NTK ntk)
-pkg_check_modules(NTK_IMAGES ntk_images)
 find_package(FLTK)
 find_package(OpenGL) #for FLTK
 find_package(CxxTest)
 if(CXXTEST_FOUND)
     set(CXXTEST_USE_PYTHON TRUE)
 endif()
-# lash
-pkg_search_module(LASH lash-1.0)
-mark_as_advanced(LASH_LIBRARIES)
-pkg_search_module(DSSI dssi>=0.9.0)
-mark_as_advanced(DSSI_LIBRARIES)
-pkg_search_module(LIBLO liblo>=0.26)
-mark_as_advanced(LIBLO_LIBRARIES)
 
-CHECK_FUNCTION_EXISTS(sched_setscheduler HAVE_SCHEDULER)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(FFTW REQUIRED fftw3)
+    pkg_check_modules(MXML REQUIRED mxml)
+    find_package(Threads   REQUIRED)
+    pkg_check_modules(JACK jack)
+    pkg_check_modules(PORTAUDIO portaudio-2.0>=19)
+    pkg_check_modules(NTK ntk)
+    pkg_check_modules(NTK_IMAGES ntk_images)
+    # lash
+    pkg_search_module(LASH lash-1.0)
+    mark_as_advanced(LASH_LIBRARIES)
+    pkg_search_module(DSSI dssi>=0.9.0)
+    mark_as_advanced(DSSI_LIBRARIES)
+    pkg_search_module(LIBLO liblo>=0.26)
+    mark_as_advanced(LIBLO_LIBRARIES)
 
-execute_process(COMMAND echo fistpl 0
-                COMMAND as -
-                ERROR_VARIABLE AVOID_ASM)
+    CHECK_FUNCTION_EXISTS(sched_setscheduler HAVE_SCHEDULER)
+    execute_process(COMMAND echo fistpl 0
+                    COMMAND as -
+                    ERROR_VARIABLE AVOID_ASM)
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    find_package(FFTW REQUIRED)
+    find_package(MXML REQUIRED)
+    find_package(PORTAUDIO REQUIRED)
+endif()
 
 ######### Settings ###########
 # NOTE: These cache variables should normally not be changed in this
@@ -221,7 +228,9 @@ else (BuildForDebug)
 	message (STATUS "Building for ${CMAKE_BUILD_TYPE}, flags: ${CMAKE_CXX_FLAGS_RELEASE}")
 endif (BuildForDebug)
 
-add_definitions(-fPIC)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+	add_definitions(-fPIC)
+endif()
 
 if(FLTK_FOUND)
 	mark_as_advanced(FORCE FLTK_BASE_LIBRARY)
@@ -252,7 +261,9 @@ if(FltkGui)
 	find_program (FLTK_CONFIG fltk-config)
 	if (FLTK_CONFIG)
 		execute_process (COMMAND ${FLTK_CONFIG} --use-images --ldflags OUTPUT_VARIABLE FLTK_LDFLAGS)
-		string(STRIP ${FLTK_LDFLAGS} FLTK_LIBRARIES)
+		if (FLTK_LDFLAGS)
+			string(STRIP ${FLTK_LDFLAGS} FLTK_LIBRARIES)
+		endif()
 	endif()
 
 	message(STATUS ${FLTK_LDFLAGS})
