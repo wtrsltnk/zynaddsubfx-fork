@@ -23,7 +23,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <direct.h>
 
 #include "Config.h"
 #include "XMLwrapper.h"
@@ -311,5 +311,10 @@ void Config::saveConfig(const char *filename)
 void Config::getConfigFileName(char *name, int namesize)
 {
     name[0] = 0;
+#ifndef _WIN32
     snprintf(name, namesize, "%s%s", getenv("HOME"), "/.zynaddsubfxXML.cfg");
+#else
+    char temp[FILENAME_MAX];
+    snprintf(name, namesize, "%s%s", getcwd(temp, FILENAME_MAX), "\\.zynaddsubfxXML.cfg");
+#endif
 }
