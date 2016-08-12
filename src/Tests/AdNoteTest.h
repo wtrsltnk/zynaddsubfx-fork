@@ -53,7 +53,8 @@ class AdNoteTest:public CxxTest::TestSuite
 
         void setUp() {
             //First the sensible settings and variables that have to be set:
-            synth = new SYNTH_T;
+            synth = new S.
+            NTH_T;
             synth->buffersize = 256;
 
             outL = new float[synth->buffersize];

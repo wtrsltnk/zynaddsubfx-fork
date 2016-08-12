@@ -10,10 +10,6 @@ find_package(Alsa)
 set(FLTK_SKIP_OPENGL true)
 find_package(FLTK)
 find_package(OpenGL) #for FLTK
-find_package(CxxTest)
-if(CXXTEST_FOUND)
-    set(CXXTEST_USE_PYTHON TRUE)
-endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     find_package(PkgConfig REQUIRED)
@@ -178,10 +174,6 @@ if(PaEnable)
 	list(APPEND AUDIO_LIBRARY_DIRS ${PORTAUDIO_LIBRARY_DIRS})
 endif()
 
-if (CompileTests)
-	ENABLE_TESTING()
-endif()
-
 if(LashEnable)
 	include_directories(${LASH_INCLUDE_DIRS})
 	add_definitions(-DLASH=1)
@@ -285,8 +277,8 @@ endif()
 
 if(NtkGui)
 
-        find_program( FLTK_FLUID_EXECUTABLE ntk-fluid)
-        
+	find_program( FLTK_FLUID_EXECUTABLE ntk-fluid)
+
 	message(STATUS ${NTK_LDFLAGS} ${NTK_IMAGES_LDFLAGS})
 
 	set(GUI_LIBRARIES ${NTK_LIBRARIES} ${NTK_IMAGES_LIBRARIES} ${OPENGL_LIBRARIES} zynaddsubfx_gui)
@@ -348,17 +340,13 @@ target_link_libraries(zynaddsubfx_core
 	${OS_LIBRARIES}
 	pthread)
 
-if(CompileTests)
-	add_subdirectory(Tests)
-endif(CompileTests)
-
 message(STATUS "using link directories: ${AUDIO_LIBRARY_DIRS} ${ZLIB_LIBRARY_DIRS} ${FFTW_LIBRARY_DIRS} ${MXML_LIBRARY_DIRS} ${FLTK_LIBRARY_DIRS}")
 
 
 add_executable(zynaddsubfx main.cpp)
 
 target_link_libraries(zynaddsubfx
-    zynaddsubfx_core
+	zynaddsubfx_core
 	zynaddsubfx_nio
 	${GUI_LIBRARIES}
 	${NIO_LIBRARIES}
@@ -391,5 +379,18 @@ install(DIRECTORY ../pixmaps DESTINATION share/zynaddsubfx)
 add_definitions(-DPIXMAP_PATH="${CMAKE_INSTALL_PREFIX}/share/zynaddsubfx/pixmaps/")
 add_definitions(-DSOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 endif(NtkGui)
+
+find_package(CxxTest)
+if(CXXTEST_FOUND)
+	set(CXXTEST_USE_PYTHON TRUE)
+endif()
+
+if (CompileTests)
+	enable_testing()
+endif()
+
+if(CompileTests)
+	add_subdirectory(Tests)
+endif(CompileTests)
 
 include(CTest)
