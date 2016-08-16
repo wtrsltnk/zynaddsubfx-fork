@@ -1,4 +1,6 @@
 
+add_definitions(-DSOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
+
 set(test_lib zynaddsubfx_core ${ZLIB_LIBRARY} ${FFTW_LIBRARIES} ${MXML_LIBRARIES} pthread)
 
 file(GLOB TESTFILES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
