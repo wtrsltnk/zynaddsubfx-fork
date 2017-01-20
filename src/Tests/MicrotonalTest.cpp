@@ -6,14 +6,13 @@
 #include <cstdio>
 #include "../globals.h"
 
-#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
 SYNTH_T *synth;
 
 using namespace std;
 
-TEST_CASE( "", "[oscilgen]" )
+TEST_CASE("Microtonal")
 {
     Microtonal *testMicro;
     synth     = new SYNTH_T;

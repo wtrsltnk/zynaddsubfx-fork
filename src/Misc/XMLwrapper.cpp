@@ -104,11 +104,6 @@ XMLwrapper::XMLwrapper()
 
     node = tree = mxmlNewElement(MXML_NO_PARENT,
                                  "?xml version=\"1.0f\" encoding=\"UTF-8\"?");
-    /*  for mxml 2.1f (and older)
-        tree=mxmlNewElement(MXML_NO_PARENT,"?xml");
-        mxmlElementSetAttr(tree,"version","1.0f");
-        mxmlElementSetAttr(tree,"encoding","UTF-8");
-    */
 
     mxml_node_t *doctype = mxmlNewElement(tree, "!DOCTYPE");
     mxmlElementSetAttr(doctype, "ZynAddSubFX-data", NULL);

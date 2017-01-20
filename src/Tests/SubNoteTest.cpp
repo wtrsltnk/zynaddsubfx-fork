@@ -9,7 +9,6 @@
 #include "../Params/Presets.h"
 #include "../globals.h"
 
-#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
 SYNTH_T* synth;
@@ -17,7 +16,7 @@ Master* master;
 
 using namespace std;
 
-TEST_CASE( "SubNote", "[subnote]" )
+TEST_CASE("SubNote")
 {
     SUBnote      *note;
     Controller   *controller;

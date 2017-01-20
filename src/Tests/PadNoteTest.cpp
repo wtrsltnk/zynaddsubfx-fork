@@ -10,7 +10,6 @@
 #include "../DSP/FFTwrapper.h"
 #include "../globals.h"
 
-#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
 SYNTH_T* synth;
@@ -18,7 +17,7 @@ Master* master;
 
 using namespace std;
 
-TEST_CASE( "Generate frames with OscilGen", "[oscilgen]" )
+TEST_CASE("PadNote")
 {
     PADnote      *note;
     FFTwrapper   *fft;

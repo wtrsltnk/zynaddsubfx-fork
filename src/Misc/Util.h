@@ -25,6 +25,7 @@
 
 #include <string>
 #include <sstream>
+#include <iostream>
 #include <stdint.h>
 #include "Config.h"
 #include "../globals.h"
@@ -60,7 +61,7 @@ template<class T>
 std::string stringFrom(T x)
 {
     std::stringstream ss;
-    ss << x;
+    ss << std::scientific << x;
     return ss.str();
 }
 

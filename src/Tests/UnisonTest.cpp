@@ -10,7 +10,6 @@
 #include "../DSP/FFTwrapper.h"
 #include "../globals.h"
 
-#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
 SYNTH_T *synth;
@@ -20,7 +19,7 @@ using namespace std;
 
 #define BUF 256
 
-TEST_CASE( "AdNote", "[subnote]" )
+TEST_CASE("Unison")
 {
     ADnote       *note;
     FFTwrapper   *fft;

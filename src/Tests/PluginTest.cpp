@@ -8,7 +8,6 @@
 #include "../Misc/Util.h"
 #include "../globals.h"
 
-#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
 SYNTH_T *synth;
@@ -25,7 +24,7 @@ string loadfile(string fname)
     return str;
 }
 
-TEST_CASE( "Plugin test", "[plugin]" )
+TEST_CASE("Plugin")
 {
     float *outR, *outL;
     Master *master[16];
@@ -68,16 +67,16 @@ TEST_CASE( "Plugin test", "[plugin]" )
     }
 
 // This test is not working because my compiler (mingw) has a different way of printing small numbers
-//    SECTION("testLoadSave") {
-//        const string fname = string(SOURCE_DIR) + "/guitar-adnote.xmz";
-//        const string fdata = loadfile(fname);
-//        char *result = NULL;
-//        master[0]->putalldata((char*)fdata.c_str(), fdata.length());
-//        int res = master[0]->getalldata(&result);
+    SECTION("testLoadSave") {
+        const string fname = string(SOURCE_DIR) + "/guitar-adnote.xmz";
+        const string fdata = loadfile(fname);
+        char *result = NULL;
+        master[0]->putalldata((char*)fdata.c_str(), fdata.length());
+        int res = master[0]->getalldata(&result);
 
-//        REQUIRE(fdata.length() == res);
-//        REQUIRE(fdata == result);
-//    }
+        REQUIRE(fdata.length() == res);
+        REQUIRE(fdata == result);
+    }
 
     for(int i = 0; i < 16; ++i)
         delete master[i];

@@ -3,12 +3,11 @@
 #include <cstdio>
 #include "../Misc/Util.h"
 
-#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
 SYNTH_T *synth;
 
-TEST_CASE( "RandGen", "[rand]" )
+TEST_CASE("RandGen")
 {
     SECTION("testPRNG") {
         REQUIRE((RND - 0.607781) < 0.00001);

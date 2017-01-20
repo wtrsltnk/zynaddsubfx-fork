@@ -1,16 +1,15 @@
 
 #include <string>
+#include <ctime>
 #include "../Synth/OscilGen.h"
 #include "../globals.h"
-
-#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
 SYNTH_T *synth;
 
 using namespace std;
 
-TEST_CASE( "Generate frames with OscilGen", "[oscilgen]" )
+TEST_CASE("OscilGen")
 {
     float  freq;
     float *outR, *outL;
